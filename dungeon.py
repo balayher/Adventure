@@ -1,6 +1,6 @@
 from room import Room
 from constants import *
-from room_setup import ROOMS, ITEMS
+from room_setup import ROOMS, ITEMS, EXITS
 from room_desc import DESC
 
 def create_dungeon():
@@ -12,4 +12,3 @@ def create_dungeon():
             column.append(room)
         dungeon.append(column)
     return dungeon
-

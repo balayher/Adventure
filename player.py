@@ -16,6 +16,7 @@ class Player():
         self.prog = prog
         
     def enter_room(self, dungeon):
+        # move player into another room, printing the room's name and description
         x = self.cur_pos_x
         y = self.cur_pos_y
         self.room = dungeon[x][y].name
@@ -23,9 +24,13 @@ class Player():
         print(dungeon[x][y].desc)
 
     def check_action(self, dungeon, action):
+        # checks if the player submitted a valid action
+        # movement action
         if action == "move" or action == "m":
             self.move_action(dungeon)
             return
+
+        # exit game action
         if action == "exit":
             confirm = input("Are you sure? ")
             confirm = confirm.lower()
@@ -33,16 +38,24 @@ class Player():
                 self.prog = 100
                 return
             return
+
+        # no valid actions
         print("Invalid action.")
         return
 
     def move_action(self, dungeon):
+        # initializing variables for ease of use
         x = self.cur_pos_x
         y = self.cur_pos_y
         facing = self.direction
+
+        # setting move to 4 to account for invalid directions
         move = 4
         direction = input("Which direction would you like to move? ")
         direction = direction.lower()
+
+        # North = 0, East = 1, South = 2, West = 3
+        # cardinal direction movement
         if direction == "north" or direction == "n" or direction == "up" or direction == "u":
             move = 0
         if direction == "east" or direction == "e":
@@ -51,6 +64,8 @@ class Player():
             move = 2
         if direction == "west" or direction == "w":
             move = 3
+
+        # relative direction movement
         if direction == "forwards" or direction == "forward" or direction == "f":
             move = facing
         if direction == "right" or direction == "r":
@@ -64,10 +79,16 @@ class Player():
             print("Invalid direction.")
             return
 
+        # check if movement in the given direction is possible
         if dungeon[x][y].exits[move] == False:
             print("You cannot proceed in that direction.")
             return
+
+        # updates the player's facing
+        self.direction = move
     
+        # move to the adjacent room
+        # North = 0, East = 1, South = 2, West = 3
         if move == 0:
             self.cur_pos_y -= 1
             self.enter_room(dungeon)

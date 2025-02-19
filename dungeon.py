@@ -4,6 +4,7 @@ from room_setup import ROOMS, ITEMS, EXITS
 from room_desc import DESC
 
 def create_dungeon():
+    # creates a dungeon matrix of rooms for the player to travel between
     dungeon = []
     for i in range(DUNGEON_COLS):
         column = []

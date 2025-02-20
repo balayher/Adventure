@@ -1,5 +1,6 @@
 from constants import *
-from inspect import inspect_room, check_item
+from inspect import inspect_room
+from items import check_item, use_item
 from room_desc import get_room_desc
 
 class Player():
@@ -45,7 +46,7 @@ class Player():
                     self.inv.add(item)
                     dungeon[x][y].items.remove(item)
                     print(f"You add the {name} to your inventory.")   
-            case "inventory" | "bag" | "b":
+            case "inventory" | "bag" | "b" | "inv":
                 if len(self.inv) == 0:
                     print("You currently have nothing.")
                 else:
@@ -54,6 +55,9 @@ class Player():
                         print(item)
             case "use" | "u":
                 item = input("What item would you like to use? ").capitalize()
+                remove = use_item(self.inv, dungeon[x][y], item, objects)
+                if remove == True:
+                    self.inv.remove(item)
             case _:
                 print("Invalid action.")
 

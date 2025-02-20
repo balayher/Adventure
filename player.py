@@ -25,60 +25,47 @@ class Player():
 
     def check_action(self, dungeon, action):
         # checks if the player submitted a valid action
-        # movement action
-        if action == "move" or action == "m":
-            self.move_action(dungeon)
-            return
-
-        # exit game action
-        if action == "exit":
-            confirm = input("Are you sure? ")
-            confirm = confirm.lower()
-            if confirm == "yes" or confirm == "y":
-                self.prog = 100
-                return
-            return
-
-        # no valid actions
-        print("Invalid action.")
-        return
+        match action:
+            case "move" | "m":
+                self.move_action(dungeon)
+            case "exit" | "e":
+                confirm = input("Are you sure you want to exit the game? ")
+                confirm = confirm.lower()
+                if confirm == "yes" or confirm == "y":
+                    self.prog = 100
+            case _:
+                print("Invalid action.")
 
     def move_action(self, dungeon):
-        # initializing variables for ease of use
+        # initializing variables for ease of use, move = 4 for movement failure
         x = self.cur_pos_x
         y = self.cur_pos_y
         facing = self.direction
-
-        # setting move to 4 to account for invalid directions
-        move = 4
-        direction = input("Which direction would you like to move? ")
-        direction = direction.lower()
-
+        direction = input("Which direction would you like to move? ").lower()
+        
         # North = 0, East = 1, South = 2, West = 3
         # cardinal direction movement
-        if direction == "north" or direction == "n" or direction == "up" or direction == "u":
-            move = 0
-        if direction == "east" or direction == "e":
-            move = 1
-        if direction == "south" or direction == "s" or direction == "down" or direction == "d":
-            move = 2
-        if direction == "west" or direction == "w":
-            move = 3
-
-        # relative direction movement
-        if direction == "forwards" or direction == "forward" or direction == "f":
-            move = facing
-        if direction == "right" or direction == "r":
-            move = (facing + 1) % 4
-        if direction == "backwards" or direction == "backward" or direction == "b":
-            move = (facing + 2) % 4
-        if direction == "left" or direction == "l":
-            move = (facing + 3) % 4
-    
-        if move == 4:
-            print("Invalid direction.")
-            return
-
+        match direction:
+            case "north" | "n" | "up" | "u":
+                move = 0
+            case "east" | "e":
+                move = 1
+            case "south" | "s" | "down" | "d":
+                move = 2
+            case "west" | "w":
+                move = 3
+            case "forwards" | "forward" | "f":
+                move = facing
+            case "right" | "r":
+                move = (facing + 1) % 4
+            case "backwards" | "backward" | "b" | "back":
+                move = (facing + 2) % 4
+            case "left" | "l":
+                move = (facing + 3) % 4
+            case _:
+                print("Invalid direction.")
+                return
+        
         # check if movement in the given direction is possible
         if dungeon[x][y].exits[move] == False:
             print("You cannot proceed in that direction.")
@@ -89,20 +76,17 @@ class Player():
     
         # move to the adjacent room
         # North = 0, East = 1, South = 2, West = 3
-        if move == 0:
-            self.cur_pos_y -= 1
-            self.enter_room(dungeon)
-            return
-        if move == 1:
-            self.cur_pos_x += 1
-            self.enter_room(dungeon)
-            return
-        if move == 2:
-            self.cur_pos_y += 1
-            self.enter_room(dungeon)
-            return
-        if move == 3:
-            self.cur_pos_x -= 1
-            self.enter_room(dungeon)
-            return
+        match move:
+            case 0:
+                self.cur_pos_y -= 1
+            case 1:
+                self.cur_pos_x += 1
+            case 2:
+                self.cur_pos_y += 1
+            case 3:
+                self.cur_pos_x -= 1
+            case _:
+                print("How did this happen?")
+
+        self.enter_room(dungeon)
     

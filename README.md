@@ -1,6 +1,12 @@
 # Adventure
 
-A text adventure game.
+A text adventure game. 
+
+## Prerequisites
+
+Before running this project locally, ensure you have the following installed:
+
+- Python (version 3.1.0 or above)
 
 ## Available Actions
 

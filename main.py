@@ -1,11 +1,11 @@
 from constants import *
-from dungeon import create_dungeon
+from dungeon import create_dungeon, create_objects
 from player import Player
-from object import Object
 
 def main():
-    # setting up the dungeon and player
+    # setting up the dungeon, in-game objects, and player
     dungeon = create_dungeon()
+    objects = create_objects()
     player = Player(
         STARTING_X_POS, 
         STARTING_Y_POS, 
@@ -14,17 +14,6 @@ def main():
         STARTING_INVENTORY,
         PROG
         )
-
-    # creating in-game objects
-    objects = {
-        "Sword": Object("Sword", True),
-        "Shield": Object("Shield"),
-        "Chef": Object("Chef"),
-        "Knife": Object("Knife"),
-        "Fish": Object("Fish", True),
-        "Door": Object("Door"),
-        "Rug": Object("Rug"),
-    }
 
     # introduction to the game
     print(

@@ -14,3 +14,14 @@ def create_dungeon():
             column.append(room)
         dungeon.append(column)
     return dungeon
+
+def create_objects():
+    return {
+        "Sword": Object("Sword", True),
+        "Shield": Object("Shield"),
+        "Chef": Object("Chef"),
+        "Knife": Object("Knife"),
+        "Fish": Object("Fish", True),
+        "Door": Object("Door"),
+        "Rug": Object("Rug"),
+    }

@@ -53,6 +53,8 @@ class Player():
                     print("You have the following items:")
                     for item in self.inv:
                         print(item)
+            case "use" | "u":
+                item = input("What item would you like to use? ").capitalize()
             case _:
                 print("Invalid action.")
 

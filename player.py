@@ -1,8 +1,9 @@
 from constants import *
 from inspect import inspect_room, check_item
+from room_desc import get_room_desc
 
 class Player():
-    def __init__(self, x, y, room, direction, inv, prog):
+    def __init__(self, x, y, direction, inv, prog):
         # x and y represent the player's current position
         # room is the name of the room the player is currently in
         # direction is the current direction the player is facing
@@ -11,7 +12,6 @@ class Player():
         
         self.cur_pos_x = x
         self.cur_pos_y = y
-        self.cur_room = room
         self.direction = direction
         self.inv = inv
         self.prog = prog
@@ -20,9 +20,8 @@ class Player():
         # move player into another room, printing the room's name and description
         x = self.cur_pos_x
         y = self.cur_pos_y
-        self.room = dungeon[x][y].name
         print(f"You have entered the {dungeon[x][y].name}.")
-        print(dungeon[x][y].desc)
+        get_room_desc(dungeon[x][y])
 
     def check_action(self, dungeon, action, objects):
         #initializing variables for ease of use later

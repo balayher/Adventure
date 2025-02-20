@@ -1,8 +1,18 @@
 # A list of all the room descriptions.
 
-R0_0 = "This room is filled with a variety of weapons and armor. Many seem dusty."
-R1_0 = "A narrow corridor leads to an adjacent room to the West."
-R0_1 = "What smells so good? It seems like the chef is cooking up something tasty!"
-R1_1 = "The entrance to this place gives you the creeps. You can't wait to get out of here!"
-
-DESC = [[R0_0, R0_1],[R1_0, R1_1]]
+def get_room_desc(room):
+    match room.name:
+        case "Armory":
+            print("This room is filled with a variety of weapons and armor. Many seem dusty.")
+        case "Kitchen":
+            match room.prog:
+                case 1:
+                    print("You wonder if the chef is cooking more fish.")
+                case _:
+                    print("What smells so good? It seems like the chef is cooking up something tasty!")
+        case "Hallway":
+            print("A narrow corridor leads to an adjacent room to the West.")
+        case "Foyer":
+            print("The entrance to this place gives you the creeps. You can't wait to get out of here!")
+        case _:
+            print("You are in the void.")

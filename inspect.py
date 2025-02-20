@@ -46,6 +46,7 @@ def check_item(room, item, objects):
             print("This red herring looks delicious!")
             if objects["Fish"].collect == True:
                 objects["Fish"].inv = True
+                room.prog += 1
                 return True, objects["Fish"].name
         case "Door":
             match objects["Door"].prog:

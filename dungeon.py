@@ -1,7 +1,6 @@
 from room import Room
 from constants import *
 from room_setup import ROOMS, ITEMS, EXITS
-from room_desc import DESC
 from object import Object
 
 def create_dungeon():
@@ -10,7 +9,7 @@ def create_dungeon():
     for i in range(DUNGEON_COLS):
         column = []
         for j in range(DUNGEON_ROWS):
-            room = Room(i, j, EXITS[i][j], ROOMS[i][j], DESC[i][j], ITEMS[i][j], PROG)
+            room = Room(i, j, EXITS[i][j], ROOMS[i][j], ITEMS[i][j], PROG)
             column.append(room)
         dungeon.append(column)
     return dungeon

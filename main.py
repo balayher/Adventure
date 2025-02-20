@@ -8,8 +8,7 @@ def main():
     objects = create_objects()
     player = Player(
         STARTING_X_POS, 
-        STARTING_Y_POS, 
-        dungeon[STARTING_X_POS][STARTING_Y_POS].name, 
+        STARTING_Y_POS,
         STARTING_DIRECTION, 
         STARTING_INVENTORY,
         PROG

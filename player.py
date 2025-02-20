@@ -1,4 +1,5 @@
 from constants import *
+from inspect import inspect_room, check_item
 
 class Player():
     def __init__(self, x, y, room, direction, inv, prog):
@@ -23,16 +24,35 @@ class Player():
         print(f"You have entered the {dungeon[x][y].name}.")
         print(dungeon[x][y].desc)
 
-    def check_action(self, dungeon, action):
+    def check_action(self, dungeon, action, objects):
+        #initializing variables for ease of use later
+        x = self.cur_pos_x
+        y = self.cur_pos_y
+
         # checks if the player submitted a valid action
         match action:
             case "move" | "m":
                 self.move_action(dungeon)
             case "exit" | "e":
-                confirm = input("Are you sure you want to exit the game? ")
-                confirm = confirm.lower()
+                confirm = input("Are you sure you want to exit the game? ").lower()
                 if confirm == "yes" or confirm == "y":
                     self.prog = 100
+            case "inspect" | "i":
+                inspect_room(dungeon[x][y])
+            case "check" | "c":
+                item = input("What would you like to check? ").capitalize()
+                take, name = check_item(dungeon[x][y], item, objects)
+                if take == True:
+                    self.inv.add(item)
+                    dungeon[x][y].items.remove(item)
+                    print(f"You add the {name} to your inventory.")   
+            case "inventory" | "bag" | "b":
+                if len(self.inv) == 0:
+                    print("You currently have nothing.")
+                else:
+                    print("You have the following items:")
+                    for item in self.inv:
+                        print(item)
             case _:
                 print("Invalid action.")
 

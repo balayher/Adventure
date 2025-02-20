@@ -10,8 +10,11 @@ Before running this project locally, ensure you have the following installed:
 
 ## Available Actions
 
-- Move: Move to another room
-- Exit: Exit the game
+- Move (m): Move to another room.
+- Inspect (i): Inspect the room for any interactable OBJECTS.
+- Check (c): Check an OBJECT that appears in the current room. If it is collectable, add it to your inventory.
+- Inventory (b): Check your current inventory.
+- Exit: Exit the game.
 
 When moving, you will be prompted for a direction to move in.
 North, East, South, or West will attempt to move you in the given direction.

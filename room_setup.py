@@ -7,12 +7,12 @@ R1_1 = "Foyer"
 
 ROOMS = [[R0_0, R0_1],[R1_0, R1_1]]
 
-# A list of the interactable objects in a room
+# Sets of the interactable objects in a room
 
-I0_0 = ["Sword", "Shield"]
-I0_1 = ["Chef", "Knife", "Fish"]
-I1_0 = ["Door"]
-I1_1 = ["Rug"]
+I0_0 = {"Sword", "Shield"}
+I0_1 = {"Chef", "Knife", "Fish"}
+I1_0 = {"Door"}
+I1_1 = {"Rug"}
 
 ITEMS = [[I0_0, I0_1],[I1_0, I1_1]]
 

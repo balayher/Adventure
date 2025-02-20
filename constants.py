@@ -5,7 +5,7 @@ STARTING_Y_POS = 1
 # starting direction (0 North, 1 East, 2 South, 3 West)
 STARTING_DIRECTION = 0
 
-STARTING_INVENTORY = []
+STARTING_INVENTORY = set()
 
 # dungeon size
 DUNGEON_COLS = 2

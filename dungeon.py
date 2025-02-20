@@ -2,6 +2,7 @@ from room import Room
 from constants import *
 from room_setup import ROOMS, ITEMS, EXITS
 from room_desc import DESC
+from object import Object
 
 def create_dungeon():
     # creates a dungeon matrix of rooms for the player to travel between

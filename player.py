@@ -31,38 +31,55 @@ class Player():
 
         # checks if the player submitted a valid action
         match action:
+            # move to another room
             case "move" | "m":
                 self.move_action(dungeon)
+
+            # exit the game
             case "exit" | "e":
                 confirm = input("Are you sure you want to exit the game? ").lower()
                 if confirm == "yes" or confirm == "y":
                     self.prog = 100
-            case "inspect" | "i":
+
+            # look around the current room
+            case "look" | "l":
                 inspect_room(dungeon[x][y])
+
+            # check an item your inventory or the current room
             case "check" | "c":
                 item = input("What would you like to check? ").capitalize()
-                check_item(dungeon[x][y], item, objects)
+                check_item(self, dungeon[x][y], item, objects)
+
+            # attempt to take an item from the current room
             case "take" | "t":
                 item = input("What would you like to take? ").capitalize()
                 take, name = take_item(dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
                     dungeon[x][y].items.remove(item)
-                    print(f"You add the {name} to your inventory.")   
-            case "inventory" | "bag" | "b" | "inv":
+                    print(f"You add the {name} to your inventory.")  
+
+            # check your current inventory 
+            case "inventory" | "inv" | "i" | "bag" | "b" :
                 if len(self.inv) == 0:
                     print("You currently have nothing.")
                 else:
                     print("You have the following items:")
                     for item in self.inv:
                         print(item)
+
+            # use an item from your inventory
             case "use" | "u":
                 item = input("What item would you like to use? ").capitalize()
                 remove = use_item(self.inv, dungeon[x][y], item, objects)
                 if remove == True:
                     self.inv.remove(item)
+
+            # easter egg actions
             case "dance":
                 print("You get a sudden urge to dance, but think better of it.")
+            
+            # not a valid action
             case _:
                 print("Invalid action.")
 

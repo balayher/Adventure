@@ -1,6 +1,6 @@
 from constants import *
 from inspect import inspect_room
-from items import check_item, use_item
+from items import check_item, take_item, use_item
 from room_desc import get_room_desc
 
 class Player():
@@ -41,7 +41,10 @@ class Player():
                 inspect_room(dungeon[x][y])
             case "check" | "c":
                 item = input("What would you like to check? ").capitalize()
-                take, name = check_item(dungeon[x][y], item, objects)
+                check_item(dungeon[x][y], item, objects)
+            case "take" | "t":
+                item = input("What would you like to take? ").capitalize()
+                take, name = take_item(dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
                     dungeon[x][y].items.remove(item)
@@ -58,6 +61,8 @@ class Player():
                 remove = use_item(self.inv, dungeon[x][y], item, objects)
                 if remove == True:
                     self.inv.remove(item)
+            case "dance":
+                print("You get a sudden urge to dance, but think better of it.")
             case _:
                 print("Invalid action.")
 

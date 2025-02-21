@@ -9,8 +9,8 @@ STARTING_DIRECTION = 0
 STARTING_INVENTORY = set()
 
 # dungeon size
-DUNGEON_COLS = 2
-DUNGEON_ROWS = 2
+DUNGEON_COLS = 4
+DUNGEON_ROWS = 4
 
 # A Progress value that tracks advancement throughout the game
 PROG = 0

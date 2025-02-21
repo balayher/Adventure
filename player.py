@@ -54,11 +54,11 @@ class Player():
             # attempt to take an item from the current room
             case "grab" | "g" | "take" | "t":
                 item = input("What would you like to grab? ").capitalize()
-                take, name = take_item(dungeon[x][y], item, objects)
+                take, item = take_item(dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
                     dungeon[x][y].items.remove(item)
-                    print(f"You add the {name} to your inventory.")  
+                    print(f"You add the {item} to your inventory.")  
 
             # check your current inventory 
             case "inventory" | "inv" | "i" | "bag" | "b" :
@@ -89,7 +89,7 @@ class Player():
                 print((safe_code % 1000) // 100)
                 print((safe_code % 100) // 10)
                 print(safe_code % 10)
-                
+
             # not a valid action
             case _:
                 print("Invalid action.")

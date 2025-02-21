@@ -1,4 +1,21 @@
 def check_item(player, room, item, objects):
+    # checks if player is in the closet while it's dark
+    if room.name == "Closet":
+        if room.prog == 0:
+            print("It's too dark to see anything.")
+            return
+    
+    # corrects the reference if 'door' is used as a shorthand Celldoor or Metaldoor
+    if item == "Door":
+        if room.name == "Dungeon":
+            item = "Celldoor"
+        if room.name == "Gallery":
+            item = "Metaldoor"
+
+    # corrects the reference if 'goldcoin' is used rather than just 'coin'
+    if item == "Goldcoin" or item == "Gold coin":
+        item = "Coin"
+
     # checks if the item is in the player's inventory or in the room
     if item not in player.inv:
         if item not in room.items:
@@ -52,7 +69,25 @@ def check_item(player, room, item, objects):
 
 def take_item(room, item, objects):
     # returns True & the item's name if the item is taken
+    # this tells the function to remove the item from the room and add it to the player's inventory
     # returns False with no item name if it is not
+
+    # checks if player is in the closet while it's dark
+    if room.name == "Closet":
+        if room.prog == 0:
+            print("It's too dark to see anything.")
+            return False, ""
+
+    # corrects the reference if 'door' is used as a shorthand Celldoor or Metaldoor
+    if item == "Door":
+        if room.name == "Dungeon":
+            item = "Celldoor"
+        if room.name == "Gallery":
+            item = "Metaldoor"
+
+    # corrects the reference if 'goldcoin' is used rather than just 'coin'
+    if item == "Goldcoin" or item == "Gold coin":
+        item = "Coin"
 
     # checks if item is in the room
     if item not in room.items:
@@ -65,8 +100,7 @@ def take_item(room, item, objects):
         case "Sword":
             if objects["Sword"].collect == True:
                 print("The sword comes off the wall with ease.")
-                objects["Sword"].inv = True
-                return True, objects["Sword"].name
+                return True, item
             print("It's stuck on the wall.")
 
         case "Shield":
@@ -81,9 +115,8 @@ def take_item(room, item, objects):
         case "Fish":
             if objects["Fish"].collect == True:
                 print("Yum!")
-                objects["Fish"].inv = True
                 room.prog += 1
-                return True, objects["Fish"].name
+                return True, item
             print("The red herring is too hot to touch.")
 
         case "Door":
@@ -130,7 +163,6 @@ def use_item(inv, room, item, objects):
                 case _:
                     print("Feeling a bit hungry, you decide to eat the Red Herring.")
                     print("The fish was delicious, but you don't feel like you're any closer to your goal.")
-                    objects["Fish"].inv = False
                     return True
 
     return False

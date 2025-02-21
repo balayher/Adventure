@@ -89,7 +89,7 @@ def take_item(room, item, objects):
         case "Door":
             match objects["Door"].prog:
                 case 0:
-                    print("You try to open the door but it's locked.")
+                    print("You grab the door handle but it's locked.")
                 case 1:
                     print("The door is already open.")
                 case _:
@@ -122,7 +122,7 @@ def use_item(inv, room, item, objects):
                     print("You swing the sword at the door but it doesn't budge.")
                 case _:
                     print("You swing the sword through the air, admiring its shine.")
-                    
+
         case "Fish":
             match room.name:
                 case "Kitchen":

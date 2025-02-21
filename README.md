@@ -13,7 +13,7 @@ Before running this project locally, ensure you have the following installed:
 - Move (m): Move to another room.
 - Look (l): Look around the current room for any interactable OBJECTS.
 - Check (c): Check an OBJECT that appears in the current room. 
-- Take (t): Attempt to take an OBJECT. If it is collectable, add it to your inventory. 
+- Grab (g): Attempt to grab an OBJECT. If it is collectable, add it to your inventory. 
 - Inventory (i): Check your current inventory.
 - Use (u): Use an item from your inventory.
 - Exit (e): Prompts if you want to exit the game. Yes (y) confirms and exits the game.

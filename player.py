@@ -2,6 +2,7 @@ from constants import *
 from inspect import inspect_room
 from items import check_item, take_item, use_item
 from room_desc import get_room_desc
+import time
 
 class Player():
     def __init__(self, x, y, direction, inv, prog):
@@ -24,7 +25,7 @@ class Player():
         print(f"You have entered the {dungeon[x][y].name}.")
         get_room_desc(dungeon[x][y])
 
-    def check_action(self, dungeon, action, objects):
+    def check_action(self, dungeon, action, objects, safe_code):
         #initializing variables for ease of use later
         x = self.cur_pos_x
         y = self.cur_pos_y
@@ -51,8 +52,8 @@ class Player():
                 check_item(self, dungeon[x][y], item, objects)
 
             # attempt to take an item from the current room
-            case "take" | "t":
-                item = input("What would you like to take? ").capitalize()
+            case "grab" | "g" | "take" | "t":
+                item = input("What would you like to grab? ").capitalize()
                 take, name = take_item(dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
@@ -79,6 +80,16 @@ class Player():
             case "dance":
                 print("You get a sudden urge to dance, but think better of it.")
             
+            case "time":
+                print(time.strftime("%H:%M:%S"))
+
+            case "safe":
+                print(f"The safe code is {safe_code}. Delete this after testing.")
+                print(safe_code // 1000)
+                print((safe_code % 1000) // 100)
+                print((safe_code % 100) // 10)
+                print(safe_code % 10)
+                
             # not a valid action
             case _:
                 print("Invalid action.")

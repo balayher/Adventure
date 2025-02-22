@@ -36,13 +36,13 @@ def check_item(player, room, item, objects):
                 # after reading the diary
                 case 1:
                     print(
-                        "'You're looking for a code? Tell you what, help me out and I'll help you.'\n"
-                        "'Bring me some broth from the pantry and I'll tell you the last digit!'"
+                        "'You're looking for some code? Tell you what, help me out and I'll help you.'\n"
+                        "'Bring me some broth from the pantry and I'll tell you the last digit of the code!'"
                         )
-                    objects["Cans"].prog == 1
+                    objects["Cans"].prog = 1
                 # after given the chef the cans of broth
                 case 2:
-                    print(f"'Like I said, the last digit is {self.code % 10}. Now let me cook!'")
+                    print(f"'Like I said, the last digit is {player.code % 10}. Now let me cook!'")
                 case _:
                     print("'Dinner will be ready soon.'")
 
@@ -128,19 +128,19 @@ def check_item(player, room, item, objects):
                 objects["Chef"].prog = 1
                 print(
                     "You open up the diary and begin to read...\n\n"
-                    "Yesterday I took Roary to the aviary looking for his favorite birds.\n"
-                    "They weren't too pleased that I brought him; they said no lions allowed.\n"
+                    "Yesterday I took Roary to the aviary, looking for his favorite birds.\n"
+                    "They weren't too pleased that I brought him: they said no lions allowed.\n"
                     "Of course a little bit of green changed their mind.\n"
                     "The golden conure was a thing of beauty! I would love one of my own someday.\n"
                     "Roary in particular loved the cockatoo. I don't think it recipricated the feelings.\n\n"
                     "You turn a few more pages until you find something interesting...\n"
-                    )
+                )
                 input("Press Enter to continue...")
                 print(
                     "\nMy precious is secure in the safe. I've given myself hints so I don't forget the code.\n"
                     "The first digit is hidden in my favorite painting.\n"
-                    "The second digit is inscribed on my grandfather's armor.\n"
-                    "The third digit is printed on the back of my favorite book.\n"
+                    "The second digit is engraved on my grandfather's armor.\n"
+                    "The third digit is inscribed on the back of my favorite book.\n"
                     "The final digit was given only to my trusted friends.\n"
                     "Only by inputting all four digits can you open the safe. No one will ever figure it out!"
                 )
@@ -151,10 +151,7 @@ def check_item(player, room, item, objects):
                     print(f"You add the {item} to your inventory.") 
             else:
                 # checks if any digits have been found and displays the ones that have
-                print(
-                    "My precious is secure in the safe. I've given myself hints so I don't forget the code.\n"
-                    "The first digit is hidden in my favorite painting."
-                )
+                print("The first digit is hidden in my favorite painting.")
                 if objects["Diary"].prog % 4 // 2 == 1:
                     print(player.code // 1000)
                 print("The second digit is inscribed on my grandfather's armor.")
@@ -165,8 +162,7 @@ def check_item(player, room, item, objects):
                     print(player.code % 100 // 10)
                 print("The final digit was given only to my trusted friends.")
                 if objects["Diary"].prog // 16 == 1:
-                    print(player.code % 100 // 10)
-                print("Only by inputting all four digits can you open the safe. No one will ever figure it out!")
+                    print(player.code % 10)
 
         case "Sink":
             if objects["Sink"].prog == 1:
@@ -184,7 +180,8 @@ def check_item(player, room, item, objects):
                 if objects["Soap"].prog == 0:
                     print("You see a bar of SOAP hidden in the shower.")
                     objects["Soap"].prog = 1
-                    room.inv.add("Soap")
+                    player.inv.add("Soap")
+                    print(f"You add the Soap to your inventory.")
                 else:
                     print("A walk-in shower.")
 
@@ -206,11 +203,63 @@ def check_item(player, room, item, objects):
                 if objects["Painting"].prog == 0:
                     objects["Painting"].prog += 1
                     objects["Diary"].prog += 2
-                    print("You note it down in the DIARY")
+                    print("You note it down in the DIARY.")
 
         case "Metaldoor":
-            print("A large metal door. There must be something important in this room.")
+            print("A large metal door. There must be something important behind it.")
 
+        case "Guard":
+            match objects["Guard"].prog:
+                case 0:
+                    print("A burly guard is blocking the exit.")
+                # after trying to fight the guard
+                case 1:
+                    print("The guard was stronger than you thought.")
+                # after giving them the gold coin
+                case 2:
+                    print(f"'I told you the last digit was {player.code % 10}. Bring me the goods if you want to leave!'")
+                case _:
+                    print("The guard was no where to be seen.")
+
+        case "Stick":
+            print("A long wooden stick.")
+
+        case "Books":
+            print("There are various books about exotic birds on the desk.")
+            # checks if diary has been read
+            if objects["Diary"].prog > 0:
+                print(
+                    "You flip over the one titled 'Flight of the Golden Conure'.\n"
+                    f"You find the number {(player.code % 100) // 10} inscribed on the back."
+                )
+                # adds digit to diary if it's not already there
+                if objects["Books"].prog < 4:
+                    objects["Books"].prog += 4
+                    objects["Diary"].prog += 8
+                    print("You note it down in the DIARY.")
+
+        case "Candle":
+            # while candle is lit
+            if objects["Candle"].prog == 1:
+                print("The candle burns brightly.")
+            else:
+                print("An unscented candle.")
+
+        case "Tv":
+            print("The television is not on.")
+
+        case "Remote":
+            print("This remote should turn on the tv.")
+
+        case "Fireplace":
+            # checks if fireplace has fire
+            if objects["Fireplace"].prog == 0:
+                print("The fire warms up the room. You think you see something shiny behind the flames...")
+            else:
+                print("The room is colder now that the flames are out.")
+
+        case "Key":
+            print("A small house key.")
 
         case "Sword":
             print("This steel sword seems like it can take down any guard.")
@@ -218,6 +267,12 @@ def check_item(player, room, item, objects):
         case "Shield":
             print("The shield is mounted to the wall.")
 
+        case "Armor":
+            # checks if armor is dirty
+            if objects["Armor"].prog == 0:
+                print("This once proud armor is coated in dirt and grime.")
+            else:
+                print(f"You find a {player.code % 1000 // 100} engraved on the armor.")
        
     return
 
@@ -258,10 +313,8 @@ def take_item(player, room, item, objects):
             print("'If you know what's good for ya, you'll keep your hands off my knife!'")
 
         case "Fish":
-            if objects["Fish"].collect == True:
-                print("Yum!")
-                return True, item
-            print("The red herring is too hot to touch.")
+            print("Yum!")
+            return True, item
 
         case "Table":
             print("Despite your desires to bring the table with you, it's simply too large.")
@@ -270,13 +323,11 @@ def take_item(player, room, item, objects):
             if objects["Vase"].prog == 0:
                 print("You attempt to pick up the vase, but it slips out of your hands and crashed on the ground.")
                 objects["Vase"].prog += 1
-                room.prog += 1
             # after vase is broken
             else:
                 print("You don't want to cut yourself on the broken shards.")
         
         case "Bucket":
-            print("You pick up the bucket.")
             return True, item
 
         case "Cans":
@@ -287,9 +338,10 @@ def take_item(player, room, item, objects):
                 case 1:
                     print("You find the broth the Chef was looking for!")
                     objects["Cans"].prog += 1
-                    return True, item
+                    player.inv.add(item)
+                    print(f"You add the {item} to your inventory.")
                 case _:
-                    print("You don't need any more of this.")
+                    print("You don't need any more of these.")
 
         case "Rice":
             print("You can barely move the top bag.")
@@ -302,7 +354,9 @@ def take_item(player, room, item, objects):
                     code = int(s)
                     if code == player.code:
                         print("The safe opens! You look inside to find a golden BRAIN!")
-                        return True, "Brain"
+                        player.inv.add("Brain")
+                        objects["Safe"].prog = 1
+                        print(f"You add the Brain to your inventory.")
                     else:
                         print("Incorrect code.")
                 else:
@@ -333,7 +387,7 @@ def take_item(player, room, item, objects):
                     objects["Rug"].prog = 1
                 # after burning the rug
                 case 2:
-                    print("You don't want to carry the evidence for your arson with you.")
+                    print("You don't want to carry the evidence of your arson with you.")
                 case _:
                     print("You've given up on the rug.")
 
@@ -362,9 +416,7 @@ def take_item(player, room, item, objects):
                 print("You don't want to risk falling asleep.")
 
         case "Diary":
-            if objects["Diary"].collect == True:
-                return True, item
-            print("You aren't a fan of birds.")
+            return True, item
 
         case "Sink":
             if objects["Sink"].prog == 0:
@@ -376,9 +428,9 @@ def take_item(player, room, item, objects):
 
         case "Toilet":
             print(
-                "When you gotta go you gotta go!\n\n"
-                "You flush when you're finished."
-                )
+                "When you gotta go, you gotta go!\n"
+                "You flush the toilet when you're finished."
+            )
 
         case "Shower":
             if objects["Shower"].prog == 0:
@@ -388,31 +440,126 @@ def take_item(player, room, item, objects):
                 print("You turn off the shower.")
                 objects["Shower"].prog = 0
 
-        case "Soap":
-            return True, item
-
         case "Door":
-            print("You try to open the wooden door but it's locked.")
+            if objects["Door"].prog == 0:
+                print("You try to open the wooden door but it's locked.")
+            else:
+                print("The door is already open.")
 
         case "Statue":
             print("The statue is much too heavy to move.")
 
         case "Painting":
-            print("Ever since the 'McCloud Incident', you've stayed away from paintings.")
+            print("Ever since the 'Lizard Incident', you've stayed away from paintings.")
 
         case "Metaldoor":
-            print("You try to open the metal door but it's locked.")
+            if objects["Metaldoor"].prog == 0:
+                print("You try to open the metal door but it's locked.")
+            else:
+                print("The door is already open.")
 
+        case "Guard":
+            match objects["Guard"].prog:
+                case 0:
+                    print(
+                        "You try to take a swing at the guard, but they swiftly knock you to the ground.\n"
+                        "'Try that again and I'll stick Roary on ya!'"
+                    )
+                    objects["Guard"].prog = 1
+                # after trying to fight the guard
+                case 1:
+                    print("You aren't in a hurry to find out who Roary is...")
+                # after giving the guard the gold coin
+                case 2:
+                    print("Bribing seemed to have calmed the guard, now's not the time to fight!")
+                case _:
+                    print("The guard was no where to be seen.")
+
+        case "Stick":
+            return True, item
+
+        case "Books":
+            if objects["Diary"].prog > 0 and objects["Books"].prog < 4:
+                print(
+                    "You flip over the book 'Flight of the Golden Conure'.\n"
+                    f"You find the number {(player.code % 100) // 10} inscribed on the back."
+                )
+                objects["Books"].prog += 4
+                objects["Diary"].prog += 8
+                print("You note it down in the DIARY.")
+            else:
+                book = objects["Books"].prog % 4
+                match book:
+                    case 0:
+                        print(
+                            "'Flight of the Golden Conure'\n\n"
+                            "The conure's brilliant yellow feathers glisten in the sun's rays.\n"
+                            "Their verdant remiges contrast beautifully with the rest of their wings.\n"
+                            "The golden conure hears trouble and races back to the nest.\n"
+                            "They join in with their fellow conures as they fight off a toucan seeking their eggs.\n"
+                            "Truly a marvel to behold!"
+                        )
+                        objects["Books"].prog += 1
+                    case 1:
+                        print(
+                            "'Whatcha Do, Cockatoo?'\n\n"
+                            "Cocaktoos preen frequently throughout the day to maintain their plumage.\n"
+                            "They will assist each other to reach the hard to reach feathers.\n"
+                            "In addition, their vocalisations tend to be loud and harsh.\n"
+                            "Palm cockatoos are known to communicate by drumming on branches with a stick.\n"
+                            "Rumor has it that they were the inspiration behind a 2017 baseball scandal."
+                        )
+                        objects["Books"].prog += 1
+                    case 2:
+                        print(
+                            "'Three Cards and a Dream: The Mute Swan Saga'\n\n"
+                            "Tensions were raising at the table. The game was getting intense.\n"
+                            "The combination of Mute Swan, Maned Duck, and Gray Catbird seemed strong on the surface.\n"
+                            "In reality, the lack of additional card draw limited it's potential.\n"
+                            "Knowing things were getting dire, Vik tucked her last card under the Mute Swan hoping for the best.\n"
+                            "And her savior arrived: Savi's Warbler.\n"
+                            "With her water engine fully online, nothing would stop her now!"
+                        )
+                        objects["Books"].prog += 1
+                    case 3:
+                        print(
+                            "'Lions on the Hunt'\n\n"
+                            "Lions typically hunt medium to large sized ungulates.\n"
+                            "They are also known to steal the kills of other predators, hyenas in particular.\n"
+                            "After all, why spend energy killing your prey when you can find one already dead?\n"
+                            "An adult lioness requires roughly 11 lbs of meat per day while a male requires about 15 lbs.\n"
+                            "Lions will gorge themselves after a kill, consuming upwards of 60 lbs in a session.\n"
+                            "If they can't finish a kill in one session, they'll take a break and return to it in a few hours."
+                        )
+                        objects["Books"].prog -= 3
+                    case _:
+                        print("You've read all these before.")
+
+        case "Candle":
+            return True, item
+
+        case "Tv":
+            print("You try to turn on the tv but can't figure it out.")
+
+        case "Remote":
+            print("The remote is out of batteries. No point to take it.")
+
+        case "Fireplace":
+            # checks if fireplace has fire
+            if objects["Fireplace"].prog == 0:
+                print("It's too hot to touch!")
+            else:
+                print("You wonder if you should rekindle the fire.")
 
         case "Sword":
-            if objects["Sword"].collect == True:
-                print("The sword comes off the wall with ease.")
-                return True, item
-            print("It's stuck on the wall.")
+            print("The sword comes off the wall with ease.")
+            return True, item
 
         case "Shield":
             print("It's just out of your reach.")
 
+        case "Armor":
+            print("It's not your size.")
 
     return False, ""
 
@@ -429,11 +576,13 @@ def use_item(player, room, item, objects):
             match room.name:
                 case "Armory":
                     print(
-                        "You try to wipe away the dirt on the armor, but it's caked on pretty heavily.\n"
+                        "You try to wipe away the dirt off of the armor, but it's caked on pretty heavily.\n"
                         "Perhaps you could use something else to clean it?"
                     )
+
                 case "Bathroom":
                     print("You don't want to get your handkerchief wet")
+
                 case _:
                     print("You aren't sure how a handkerchief helps out here.")
 
@@ -441,6 +590,7 @@ def use_item(player, room, item, objects):
             match room.name:
                 case "Kitchen":
                     print("'No eating in the kitchen!'")
+
                 case _:
                     print("Feeling a bit hungry, you decide to eat the Red Herring.")
                     print("The fish was delicious, but you don't feel like you're any closer to your goal.")
@@ -469,8 +619,8 @@ def use_item(player, room, item, objects):
                             )
                             objects["Bucket"].prog = 0
                             objects["Fireplace"].prog = 1
-                            room.items.remove("Fireplace")
-                            room.items.add("Key")
+                            player.inv.add("Key")
+                            print(f"You add the Key to your inventory.")
                         else:
                             print("The fire is already out.")
                     else:
@@ -484,11 +634,16 @@ def use_item(player, room, item, objects):
                 case "Kitchen":
                     print(
                         "'Yes! This is what I needed for the soup!'\n"
-                        f"'The last digit of the code is {self.code % 10}.\n"
-                        "Now leave me alone!"
+                        f"'The last digit of the code is {player.code % 10}.'\n"
+                        "'Now leave me alone!'"
                     )
+                    # adds digit to diary if it's not already there
+                    if objects["Diary"].prog < 16:
+                        objects["Diary"].prog += 16
+                        print("You note the digit down in the DIARY.")
                     objects["Chef"].prog += 1
                     return True
+
                 case _:
                     print("This doesn't help you here.")
 
@@ -496,10 +651,13 @@ def use_item(player, room, item, objects):
             match room.name:
                 case "Gallery":
                     print("The metal door unlocks! With a bit of effort you open it up.")
-                    room.items.remove("Metaldoor")
+                    objects["Metaldoor"].prog = 1
+                    room.exits[1] = True
                     return True
+
                 case "Treasury":
                     print("The safe requires a keycode, not a key.")
+
                 case _:
                     print("Nothing looks unlockable in here.")
 
@@ -515,15 +673,17 @@ def use_item(player, room, item, objects):
                         s = input("'What do you say?' ").lower()
                         if s == "yes" or s == "y":
                             print("'Thanks! I'm out of here!")
-                            objects["Guard"].prog = 3
+                            objects["Guard"].prog = 4
                             room.exits[1] = True
                             room.items.remove("Guard")
                             return True
                         print("'If you change your mind, let me know.'")
                     else:
                         print("What are you going to do with that?")
+
                 case "Kitchen":
-                    print("That's Evan's prized possession! He won't be happy with you...")
+                    print("'That's Evan's prized possession! He won't be happy with you...'")
+
                 case _:
                     print("What are you going to do with that?")
 
@@ -539,14 +699,19 @@ def use_item(player, room, item, objects):
                             )
                         s = input("'What do you say?' ").lower()
                         if s == "yes" or s == "y":
-                            print(f"'Thanks! The last digit is {self.code %10}.'")
-                            objects["Guard"].prog = 1
+                            print(f"'Thanks! The last digit is {player.code %10}.'")
+                            objects["Guard"].prog = 2
+                            if objects["Diary"].prog < 16:
+                                objects["Diary"].prog += 16
+                                print("You note the digit down in the DIARY")
                             return True
                         print("'If you change your mind, let me know.'")
                     else:
                         print("The coin's shiny, but not useful here.")
+
                 case "Kitchen":
-                    print("You don't need to pay me for dinner!")
+                    print("'You don't need to pay me for dinner!'")
+
                 case _:
                     print("The coin's shiny, but not useful here.")
 
@@ -561,24 +726,151 @@ def use_item(player, room, item, objects):
                     print(
                         "You use the soap to scrub all the dirt off of the armor.\n"
                         "You wipe the remains away with your handkerchief.\n"
-                        f"Underneath you find a {player.code % 100 // 10} engraved on the armor.\n"
+                        f"Underneath you find a {player.code % 1000 // 100} engraved on the armor.\n"
                         "You note it down in the DIARY."
                         )
                     player.inv.remove("Handkerchief")
                     objects["Armor"].prog += 1
-                    objects["Diary"].prog += 8
+                    objects["Diary"].prog += 4
                     return True
+
                 case _:
                     print("Nothing needs cleaning here.")
 
+        case "Stick":
+            match room.name:
+                case "Foyer":
+                    # checks if guard is in the room
+                    if "Guard" in room.items:
+                        print("'That flimsy thing will break in half if you try to swing it at me!")
+                    else:
+                        print("You're certain this stick is useful something, but you can't figure out what.")
+
+                case "Treasury":
+                    # checks if keyring is in the room
+                    if "Keyring" in room.items:
+                        print("You manage to hook the keyring off the wall and bring it to you.")
+                        player.inv.add("Keyring")
+                        room.items.remove("Keyring")
+                        print(f"You add the Keyring to your inventory.")
+                        objects["Stick"].prog = 1
+                    else:
+                        print("You've already gotten the keyring.")
+
+                case "Corridor":
+                    print("You could reach the clock, but you don't want to damage it.")
+
+                case "Armory":
+                    print("You try to knock the shield off the wall, but to no avail.")
+                 
+                case "Dining Room":
+                    if objects["Vase"].prog == 0:
+                        print(
+                            "You swing the stick around and knock the vase over.\n"
+                            "It shatters into pieces."
+                        )
+                        objects["Vase"].prog += 1
+                    else:
+                        print("Haven't you done enough damage for one day?")
+                 
+                case "Living Room":
+                    if objects["Stick"].prog == 0:
+                        print(
+                            "You resist the urge to throw the stick into the fireplace.\n"
+                            "You feel like you need it for something..."
+                        )
+                    else:
+                        print("You toss the stick into the fireplace.")
+                        return True
+
+                case "Gallery":
+                    print("You don't want to damage anything in here.")
+                 
+                case _:
+                    print("You're certain this stick is useful something, but you can't figure out what.")
+
+        case "Candle":
+            # before candle is lit
+            if objects["Candle"].prog == 0:
+                match room.name:
+                    #lights the candle
+                    case "Living Room":
+                        print("You light the candle with the flames of the fireplace.")
+                        objects["Candle"].prog = 1
+                    
+                    case _:
+                        print("There's nothing to light the candle with here.")
+            
+            # when candle is lit
+            else:
+                match room.name:
+                    case "Living Room":
+                        print("The candle's already lit.")
+                    
+                    case "Closet":
+                        # lights up the closet
+                        if room.prog == 0:
+                            room.prog += 1
+                            print(
+                                "Illuminating the darkness, you see that this closet is actually a food pantry.\n"
+                                "Large bags of RICE are lying in the corner.\n"
+                                "Various CANS of food sit on the shelf.\n"
+                                "There's a wooden BUCKET in the back."
+                            )
+                        else:
+                            print("You can already see in here.")
+
+                    case "Gallery":
+                        print("You don't want to damage the painting.")
+
+                    case "Hallway":
+                        # sets the rug on fire
+                        if objects["Rug"].prog < 2:
+                            print(
+                                "You set the rug ablaze! You're impressed by how fast it burns.\n"
+                                "When the flames abet, you find a gold COIN underneath."
+                            )
+                            objects["Rug"].prog = 2
+                            player.inv.add("Coin")
+                            print(f"You add the Coin to your inventory.")
+                        else:
+                            print("You've done enough damage here.")
+
+                    case _:
+                        print("Nothing flamable here.")
+
+        case "Key":
+            match room.name:
+                case "Passageway":
+                    print("You unlock the door!")
+                    objects["Door"].prog = 1
+                    room.exits[2] = True
+                    return True
+                
+                case _:
+                    print("There's nothing to unlock here.")
 
         case "Sword":
             match room.name:
-                case "Hallway":
-                    print("You swing the sword at the door but it doesn't budge.")
+                case "Kitchen":
+                    print("'Be careful where you're seeing that thing!'")
+
+                case "Foyer":
+                    # checks if guard is there before offering the brain to the guard
+                    if "Guard" in room.items:
+                        print(
+                            "'I don't get paid enough for this...'\n"
+                            "'You're free to go; I'd rather get a new job than get maimed by a sword.'\n"
+                            "The guard leaves."
+                        )
+                        objects["Guard"].prog = 3
+                        room.exits[1] = True
+                        room.items.remove("Guard")
+                        
+                    else:
+                        print("You've already scared off the guard.")
+
                 case _:
                     print("You swing the sword through the air, admiring its shine.")
-
-       
 
     return False

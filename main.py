@@ -28,7 +28,7 @@ def main():
     # gameplay loop
     while True:
         # get action command from player (.lower() used to ignore case)
-        action = input("What would you like to do? ").lower()
+        action = input("\nWhat would you like to do? ").lower()
         player.check_action(dungeon, action, objects)
 
         # check if game should be closed

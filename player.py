@@ -2,7 +2,6 @@ from constants import *
 from inspect import inspect_room
 from items import check_item, take_item, use_item
 from room_desc import get_room_desc
-import time
 
 class Player():
     def __init__(self, x, y, direction, inv, prog, code):
@@ -46,16 +45,19 @@ class Player():
 
             # look around the current room
             case "look" | "l":
+                print()
                 inspect_room(dungeon[x][y])
 
             # check an item your inventory or the current room
             case "check" | "c":
                 item = input("What would you like to check? ").capitalize()
+                print()
                 check_item(self, dungeon[x][y], item, objects)
 
             # attempt to take an item from the current room
             case "grab" | "g" | "take" | "t":
                 item = input("What would you like to grab? ").capitalize()
+                print()
                 take, item = take_item(self, dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
@@ -64,6 +66,7 @@ class Player():
 
             # check your current inventory 
             case "inventory" | "inv" | "i" | "bag" | "b" :
+                print()
                 if len(self.inv) == 0:
                     print("You currently have nothing.")
                 else:
@@ -74,6 +77,7 @@ class Player():
             # use an item from your inventory
             case "use" | "u":
                 item = input("What item would you like to use? ").capitalize()
+                print()
                 remove = use_item(self, dungeon[x][y], item, objects)
                 if remove == True:
                     self.inv.remove(item)
@@ -82,9 +86,6 @@ class Player():
             case "dance":
                 print("You get a sudden urge to dance, but think better of it.")
             
-            case "time":
-                print(time.strftime("%H:%M:%S"))
-
             case "safe":
                 print(f"The safe code is {self.code}. Delete this after testing.")
                 print(self.code // 1000)
@@ -102,7 +103,8 @@ class Player():
         y = self.cur_pos_y
         facing = self.direction
         direction = input("Which direction would you like to move? ").lower()
-        
+        print()
+
         # North = 0, East = 1, South = 2, West = 3
         # cardinal direction movement
         match direction:

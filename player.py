@@ -5,18 +5,20 @@ from room_desc import get_room_desc
 import time
 
 class Player():
-    def __init__(self, x, y, direction, inv, prog):
+    def __init__(self, x, y, direction, inv, prog, code):
         # x and y represent the player's current position
         # room is the name of the room the player is currently in
         # direction is the current direction the player is facing
         # inv is the player's current inventory of items
         # prog is the player's current progression level
+        # code is the safe code
         
         self.cur_pos_x = x
         self.cur_pos_y = y
         self.direction = direction
         self.inv = inv
         self.prog = prog
+        self.code = code
         
     def enter_room(self, dungeon):
         # move player into another room, printing the room's name and description
@@ -25,7 +27,7 @@ class Player():
         print(f"You have entered the {dungeon[x][y].name}.")
         get_room_desc(dungeon[x][y])
 
-    def check_action(self, dungeon, action, objects, safe_code):
+    def check_action(self, dungeon, action, objects):
         #initializing variables for ease of use later
         x = self.cur_pos_x
         y = self.cur_pos_y
@@ -54,7 +56,7 @@ class Player():
             # attempt to take an item from the current room
             case "grab" | "g" | "take" | "t":
                 item = input("What would you like to grab? ").capitalize()
-                take, item = take_item(dungeon[x][y], item, objects)
+                take, item = take_item(self, dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
                     dungeon[x][y].items.remove(item)
@@ -72,7 +74,7 @@ class Player():
             # use an item from your inventory
             case "use" | "u":
                 item = input("What item would you like to use? ").capitalize()
-                remove = use_item(self.inv, dungeon[x][y], item, objects)
+                remove = use_item(self, dungeon[x][y], item, objects)
                 if remove == True:
                     self.inv.remove(item)
 
@@ -84,11 +86,11 @@ class Player():
                 print(time.strftime("%H:%M:%S"))
 
             case "safe":
-                print(f"The safe code is {safe_code}. Delete this after testing.")
-                print(safe_code // 1000)
-                print((safe_code % 1000) // 100)
-                print((safe_code % 100) // 10)
-                print(safe_code % 10)
+                print(f"The safe code is {self.code}. Delete this after testing.")
+                print(self.code // 1000)
+                print((self.code % 1000) // 100)
+                print((self.code % 100) // 10)
+                print(self.code % 10)
 
             # not a valid action
             case _:

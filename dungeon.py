@@ -17,6 +17,7 @@ def create_dungeon():
 def create_objects():
     # creates all the interactable items in the dungeon
     return {
+        "Handkerchief": Object(True),
         "Chef": Object(),
         "Knife": Object(),
         "Fish": Object(True),
@@ -24,8 +25,10 @@ def create_objects():
         "Vase": Object(),
         "Bucket": Object(True),
         "Cans": Object(),
+        "Rice": Object(),
         "Safe": Object(),
         "Keyring": Object(),
+        "Brain": Object(True),
         "Celldoor": Object(),
         "Rug": Object(),
         "Coin": Object(True),

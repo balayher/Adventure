@@ -6,7 +6,7 @@ STARTING_Y_POS = 0
 STARTING_DIRECTION = 0
 
 # starting inventory for the player
-STARTING_INVENTORY = set()
+STARTING_INVENTORY = {"Handkerchief"}
 
 # dungeon size
 DUNGEON_COLS = 4

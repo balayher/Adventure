@@ -5,6 +5,7 @@ import random
 
 def main():
     # setting up the dungeon, in-game objects, and player
+    # generates a random code for the safe puzzle
     dungeon = create_dungeon()
     objects = create_objects()
     player = Player(
@@ -12,24 +13,23 @@ def main():
         STARTING_Y_POS,
         STARTING_DIRECTION, 
         STARTING_INVENTORY,
-        PROG
+        PROG,
+        random.randint(1000, 9999)
         )
-        
-    # generate a random code for the safe puzzle
-    safe_code = random.randint(1000, 9999)
 
     # introduction to the game
     print(
-        "You approach a murky house in the forest. You feel shivers down your spine."
-        "The treasures you seek must be inside! You quickly enter and shut the door behind you."
-        )
-    player.enter_room(dungeon)
+        "You awaken in an unfamiliar place.\n" 
+        "The last thing you remember is breaking into Dr. Evan's mansion in search of his most prized possession.\n"
+        "It seems you were unsucessful as you are now inside a prison cell.\n"
+        "How are you going to get out of this one?"
+    )
 
     # gameplay loop
     while True:
         # get action command from player (.lower() used to ignore case)
         action = input("What would you like to do? ").lower()
-        player.check_action(dungeon, action, objects, safe_code)
+        player.check_action(dungeon, action, objects)
 
         # check if game should be closed
         if player.prog == 100:

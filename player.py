@@ -23,8 +23,12 @@ class Player():
         # move player into another room, printing the room's name and description
         x = self.cur_pos_x
         y = self.cur_pos_y
-        print(f"You have entered the {dungeon[x][y].name}.")
-        get_room_desc(dungeon[x][y])
+        if dungeon[x][y].name == "Exit":
+            print("You have exited Evan's mansion!")
+            self.prog = 77
+        else:
+            print(f"You have entered the {dungeon[x][y].name}.")
+            get_room_desc(dungeon[x][y])
 
     def check_action(self, dungeon, action, objects):
         #initializing variables for ease of use later
@@ -55,8 +59,8 @@ class Player():
                 check_item(self, dungeon[x][y], item, objects)
 
             # attempt to take an item from the current room
-            case "grab" | "g" | "take" | "t":
-                item = input("What would you like to grab? ").capitalize()
+            case "interact" | "i" | "grab" | "g" | "take" | "t":
+                item = input("What would you like to interact with? ").capitalize()
                 print()
                 take, item = take_item(self, dungeon[x][y], item, objects)
                 if take == True:
@@ -65,7 +69,7 @@ class Player():
                     print(f"You add the {item} to your inventory.")  
 
             # check your current inventory 
-            case "inventory" | "inv" | "i" | "bag" | "b" :
+            case "inventory" | "inv" | "bag" | "b" :
                 print()
                 if len(self.inv) == 0:
                     print("You currently have nothing.")

@@ -12,12 +12,14 @@ Before running this project locally, ensure you have the following installed:
 
 - Move (m): Move to another room.
 - Look (l): Look around the current room for any interactable OBJECTS.
-- Check (c): Check an OBJECT that appears in the current room. 
-- Grab (g): Attempt to grab an OBJECT. If it is collectable, add it to your inventory. 
-- Inventory (i): Check your current inventory.
+- Check (c): Check an OBJECT in the current room or your inventory. 
+- Interact (i): Interact with an OBJECT. If it is collectable, add it to your inventory.
+- Inventory (b): Check your current inventory.
 - Use (u): Use an item from your inventory.
-- Exit (e): Prompts if you want to exit the game. Yes (y) confirms and exits the game.
+- Exit (e): Prompts to exit the game. Yes (y) confirms and exits the game.
 
 When moving, you will be prompted for a direction to move in.
 North (n), East (e), South (s), or West (w) will attempt to move you in the given direction.
 Forwards (f), Backwards (b), Left (l), or Right (r) will attempt to move you in the given direction relative to your current facing (typically, this will be the direction you entered the room from).
+Interacting with an item that's already in your inventory will attempt to Use the item instead.
+Conversely, attempting to use an item that's not in your inventory but is in the current room will attempt to Interact with the item.

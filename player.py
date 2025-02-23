@@ -86,6 +86,9 @@ class Player():
             case "dance":
                 print("You get a sudden urge to dance, but think better of it.")
             
+            case "debut":
+                dungeon[x][y].exits = [True, True, True, True]
+
             case "safe":
                 print(f"The safe code is {self.code}. Delete this after testing.")
                 print(self.code // 1000)

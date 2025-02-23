@@ -323,6 +323,7 @@ def take_item(player, room, item, objects):
             if objects["Vase"].prog == 0:
                 print("You attempt to pick up the vase, but it slips out of your hands and crashed on the ground.")
                 objects["Vase"].prog += 1
+                room.prog += 1
             # after vase is broken
             else:
                 print("You don't want to cut yourself on the broken shards.")
@@ -619,6 +620,7 @@ def use_item(player, room, item, objects):
                             )
                             objects["Bucket"].prog = 0
                             objects["Fireplace"].prog = 1
+                            room.prog += 1
                             player.inv.add("Key")
                             print(f"You add the Key to your inventory.")
                         else:
@@ -770,6 +772,7 @@ def use_item(player, room, item, objects):
                             "It shatters into pieces."
                         )
                         objects["Vase"].prog += 1
+                        room.prog += 1
                     else:
                         print("Haven't you done enough damage for one day?")
                  
@@ -831,6 +834,7 @@ def use_item(player, room, item, objects):
                                 "When the flames abet, you find a gold COIN underneath."
                             )
                             objects["Rug"].prog = 2
+                            room.prog = 1
                             player.inv.add("Coin")
                             print(f"You add the Coin to your inventory.")
                         else:

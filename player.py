@@ -100,16 +100,17 @@ class Player():
                     objects["Vase"].prog += 1
                     dungeon[0][1].prog += 1
             
-            case "debut":
-                dungeon[x][y].exits = [True, True, True, True]
+            # debug codes used for testing
+            #case "debut":
+            #    dungeon[x][y].exits = [True, True, True, True]
 
-            case "safe":
-                print(f"The safe code is {self.code}. Delete this after testing.")
-                print(self.code // 1000)
-                print((self.code % 1000) // 100)
-                print((self.code % 100) // 10)
-                print(self.code % 10)
-
+            #case "safe":
+            #    print(f"The safe code is {self.code}. Delete this after testing.")
+            #    print(self.code // 1000)
+            #    print((self.code % 1000) // 100)
+            #    print((self.code % 100) // 10)
+            #    print(self.code % 10)
+            
             # not a valid action
             case _:
                 print("Invalid action.")

@@ -82,13 +82,23 @@ class Player():
             case "use" | "u":
                 item = input("What item would you like to use? ").capitalize()
                 print()
-                remove = use_item(self, dungeon[x][y], item, objects)
+                remove, item = use_item(self, dungeon[x][y], item, objects)
                 if remove == True:
                     self.inv.remove(item)
 
             # easter egg actions
             case "dance":
                 print("You get a sudden urge to dance, but think better of it.")
+
+            case "experiment":
+                print("You lack the equipment to test your current hypothesis.")
+
+            case "exercise":
+                print("You start doing some jumping jacks. It's good to get some cardio in!")
+                if x == 0 and y == 1 and objects["Vase"].prog == 0:
+                    print("Your jumping shook the vase and caused it to fall, shattering into pieces!")
+                    objects["Vase"].prog += 1
+                    dungeon[0][1].prog += 1
             
             case "debut":
                 dungeon[x][y].exits = [True, True, True, True]

@@ -21,7 +21,7 @@ def main():
     print(
         "You awaken in an unfamiliar place.\n" 
         "The last thing you remember is breaking into Dr. Evan's mansion in search of his most prized possession.\n"
-        "It seems you were unsucessful as you are now inside a prison cell.\n"
+        "It seems you were unsuccessful as you are now inside a prison cell.\n"
         "How are you going to get out of this one?"
     )
 
@@ -39,7 +39,7 @@ def main():
             if "Fish" not in dungeon[0][0].items:
                 print("\nChef Rainslayer was dismayed that her fish went missing.")
             else:
-                print("\nChef Rainslayer's magical sauce paired great with the red herring.")
+                print("\nChef Rainslayer's magical soup paired greatly with the red herring.")
 
             print("Kujo quit his job as Evan's Guard.")
             # checks how you got past the guard
@@ -52,12 +52,17 @@ def main():
             if "Brain" in player.inv or objects["Guard"].prog == 4:
                 print(
                     "Once he found out his treasure was missing, he immediately went berserk.\n"
-                    "He took his lion Roary and gathered his friends to hunt you down..."
+                    "Evan took his lion Roary and gathered his friends to hunt you down..."
                 )
             else:
-                print("He felt some relief that at least his treasure was safe.")
+                print("He felt relieved that his prized golden brain was safe.")
                 if objects["Vase"].prog == 1 or objects["Rug"].prog == 2:
-                    print("Although he was annoyed about the other damages to his property...")
+                    print("Although he was quite annoyed about the other damages around the property...")
+                    if objects["Sink"].prog == 1 or objects["Shower"].prog == 1:
+                        print("He also pondered why the water was left running...")
+                else:
+                    if objects["Sink"].prog == 1 or objects["Shower"].prog == 1:
+                        print("Though he pondered why the water was left running...")
 
             input("\nPress Enter to continue...")
 

@@ -1,6 +1,6 @@
-# Adventure
+# Escape From Evan's Mansion
 
-A text adventure game. 
+A text adventure game where you search for Evan's most prized possession and find a way to escape his mansion!
 
 ## Prerequisites
 
@@ -20,6 +20,12 @@ Before running this project locally, ensure you have the following installed:
 
 When moving, you will be prompted for a direction to move in.
 North (n), East (e), South (s), or West (w) will attempt to move you in the given direction.
-Forwards (f), Backwards (b), Left (l), or Right (r) will attempt to move you in the given direction relative to your current facing (typically, this will be the direction you entered the room from).
+Forwards (f), Backwards (b), Left (l), or Right (r) will attempt to move you in the given direction relative to your current facing (typically, this will be the direction you entered the room from).  
 Interacting with an item that's already in your inventory will attempt to Use the item instead.
-Conversely, attempting to use an item that's not in your inventory but is in the current room will attempt to Interact with the item.
+Conversely, attempting to use an item that's not in your inventory but is in the current room will attempt to Interact with the item.  
+Additional actions may be hidden as well. Experiment to find out!
+
+## Credits
+
+Thanks to [boot.dev](https://www.boot.dev/) for the inspiration to push myself to attempt my first solo project from scratch.  
+Thanks to my brother Evan for adding to the lore of the game.

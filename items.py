@@ -78,7 +78,10 @@ def check_item(player, room, item, objects):
                 print("The safe is open.")
 
         case "Keyring":
-            print("A set of keys hangs on the wall above the safe.")
+            if objects["Keyring"].prog == 0:
+                print("A set of keys hangs on the wall above the safe.")
+            else:
+                print("These keys could unlock anything in the mansion.")
 
         case "Brain":
             print(
@@ -216,7 +219,7 @@ def check_item(player, room, item, objects):
                 print("An unscented candle.")
 
         case "Tv":
-            print("The television is not on.")
+            print("The television is turned off.")
 
         case "Remote":
             print("This remote should turn on the tv.")
@@ -264,7 +267,7 @@ def take_item(player, room, item, objects):
     # if in player's inventory, calls use instead
     if item not in room.items:
         if item in player.inv:
-            remove = use_item(player, room, item, objects)
+            remove, item = use_item(player, room, item, objects)
             if remove == True:
                 player.inv.remove(item)
         else:
@@ -340,7 +343,7 @@ def take_item(player, room, item, objects):
         case "Celldoor":
             if objects["Celldoor"].prog == 0:
                 print(
-                    "You pull the celldoor open with ease.\n"
+                    "You push the celldoor open with ease.\n"
                     "Seems whoever put you in here forgot to lock it!"
                 )
                 objects["Celldoor"].prog += 1
@@ -452,7 +455,7 @@ def take_item(player, room, item, objects):
             match objects["Guard"].prog:
                 case 0:
                     print(
-                        "You try to take a swing at the guard, but they swiftly knock you to the ground.\n"
+                        "You try to take a swing at the guard, but he swiftly knock you to the ground.\n"
                         "'Try that again and I'll stick Roary on ya!'"
                     )
                     objects["Guard"].prog = 1
@@ -472,7 +475,7 @@ def take_item(player, room, item, objects):
             if objects["Diary"].prog > 0 and objects["Books"].prog < 4:
                 print(
                     "You flip over the book 'Flight of the Golden Conure'.\n"
-                    f"You find the number {(player.code % 100) // 10} inscribed on the back."
+                    f"The number {(player.code % 100) // 10} is inscribed on the back."
                 )
                 objects["Books"].prog += 4
                 objects["Diary"].prog += 8
@@ -503,11 +506,11 @@ def take_item(player, room, item, objects):
                     case 2:
                         print(
                             "'Three Cards and a Dream: The Mute Swan Saga'\n\n"
-                            "Tensions were raising at the table. The game was getting intense.\n"
+                            "Tensions were rising at the table. The game was getting intense.\n"
                             "The combination of Mute Swan, Maned Duck, and Gray Catbird seemed strong on the surface.\n"
                             "In reality, the lack of additional card draw limited its potential.\n"
-                            "Knowing things were getting dire, Vik tucked her last card under the Mute Swan hoping for the best.\n"
-                            "And thus her savior had arrived: the Savi's Warbler.\n"
+                            "Knowing things were getting dire, Vik tucked her last card under the Mute Swan, hoping for the best.\n"
+                            "Fortunately, her savior had arrived: the Savi's Warbler.\n"
                             "With her water engine fully online, nothing would stop Vik now!"
                         )
                         objects["Books"].prog += 1
@@ -570,7 +573,7 @@ def use_item(player, room, item, objects):
                 print(f"You add the {item} to your inventory.") 
         else:
             print("You do not possess that item.")
-        return False
+        return False, item
 
     # checks item with the current room to determine the effect of using
     match item:
@@ -596,7 +599,7 @@ def use_item(player, room, item, objects):
                 case _:
                     print("Feeling a bit hungry, you decide to eat the Red Herring.")
                     print("The fish was delicious, but you don't feel like you're any closer to your goal.")
-                    return True
+                    return True, item
 
         case "Bucket":
             match room.name:
@@ -636,7 +639,7 @@ def use_item(player, room, item, objects):
             match room.name:
                 case "Kitchen":
                     print(
-                        "'Yes! This is what I needed for the soup!'\n"
+                        "'Yes! This is just what I needed for my soup!'\n"
                         f"'The last digit of the code is {player.code % 10}.'\n"
                         "'Now leave me alone!'"
                     )
@@ -645,7 +648,7 @@ def use_item(player, room, item, objects):
                         objects["Diary"].prog += 16
                         print("You note the digit down in the DIARY.")
                     objects["Chef"].prog += 1
-                    return True
+                    return True, item
 
                 case _:
                     print("This doesn't help you here.")
@@ -656,7 +659,7 @@ def use_item(player, room, item, objects):
                     print("The metal door unlocks! With a bit of effort you open it up.")
                     objects["Metaldoor"].prog = 1
                     room.exits[1] = True
-                    return True
+                    return True, item
 
                 case "Treasury":
                     print("The safe requires a keycode, not a key.")
@@ -679,7 +682,7 @@ def use_item(player, room, item, objects):
                             objects["Guard"].prog = 4
                             room.exits[1] = True
                             room.items.remove("Guard")
-                            return True
+                            return True, item
                         print("'If you change your mind, let me know.'")
                     else:
                         print("What are you going to do with that?")
@@ -709,7 +712,7 @@ def use_item(player, room, item, objects):
                             if objects["Diary"].prog < 16:
                                 objects["Diary"].prog += 16
                                 print("You note the digit down in the DIARY")
-                            return True
+                            return True, item
                         print("'If you change your mind, let me know.'")
                     else:
                         print("The coin's shiny, but not useful here.")
@@ -737,7 +740,7 @@ def use_item(player, room, item, objects):
                     player.inv.remove("Handkerchief")
                     objects["Armor"].prog += 1
                     objects["Diary"].prog += 4
-                    return True
+                    return True, item
 
                 case _:
                     print("Nothing needs cleaning here.")
@@ -759,6 +762,7 @@ def use_item(player, room, item, objects):
                         room.items.remove("Keyring")
                         print(f"You add the Keyring to your inventory.")
                         objects["Stick"].prog = 1
+                        objects["Keyring"].prog = 1
                     else:
                         print("You've already gotten the keyring.")
 
@@ -787,7 +791,7 @@ def use_item(player, room, item, objects):
                         )
                     else:
                         print("You toss the stick into the fireplace.")
-                        return True
+                        return True, item
 
                 case "Gallery":
                     print("You don't want to damage anything in here.")
@@ -852,7 +856,7 @@ def use_item(player, room, item, objects):
                     print("You unlock the door!")
                     objects["Door"].prog = 1
                     room.exits[2] = True
-                    return True
+                    return True, item
                 
                 case _:
                     print("There's nothing to unlock here.")
@@ -880,4 +884,4 @@ def use_item(player, room, item, objects):
                 case _:
                     print("You brandish the sword, admiring its shine.")
 
-    return False
+    return False, item

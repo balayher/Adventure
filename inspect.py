@@ -81,7 +81,7 @@ def inspect_room(room):
             )
 
         case "Passageway":
-            print("The passage connects rooms in all directions. The wooden DOOR to the South seems different from the rest.")
+            print("The passage connects rooms in four directions. The wooden DOOR to the South seems different from the others.")
 
         case "Gallery":
             print(
@@ -97,7 +97,7 @@ def inspect_room(room):
                 "Although, the Lounge back to the West is still tempting..."
             )
             if "Guard" in room.items:
-                print("An intimidating looking GUARD blocks the exit. Is there a way around them?")
+                print("An intimidating looking GUARD blocks the exit. Is there a way around him?")
             if "Stick" in room.items:
                 print("A long wooden STICK lies in the corner.")
 
@@ -117,7 +117,7 @@ def inspect_room(room):
                 print("With the FIREPLACE out, the room feels much colder.")
             print(
                 'A 70" TV is mounted to the wall.\n'
-                'A single REMOTE sits on a side table near the FIREPLACE.'
+                'A single REMOTE sits on a side table near the FIREPLACE.\n'
                 'There are rooms to the North and the West.'
             )
 

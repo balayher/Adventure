@@ -41,9 +41,21 @@ class Player():
             case "move" | "m":
                 self.move_action(dungeon)
 
+            case "north" | "n":
+                self.move_action(dungeon, action)
+
+            case "east" | "e":
+                self.move_action(dungeon, action)
+
+            case "south" | "s":
+                self.move_action(dungeon, action)
+
+            case "west" | "w":
+                self.move_action(dungeon, action)
+
             # exit the game
-            case "exit" | "e":
-                confirm = input("Are you sure you want to exit the game? ").lower()
+            case "quit" | "q":
+                confirm = input("Are you sure you want to quit the game? ").lower()
                 if confirm == "yes" or confirm == "y":
                     self.prog = 100
 
@@ -80,11 +92,18 @@ class Player():
 
             # use an item from your inventory
             case "use" | "u":
-                item = input("What item would you like to use? ").capitalize()
                 print()
-                remove, item = use_item(self, dungeon[x][y], item, objects)
-                if remove == True:
-                    self.inv.remove(item)
+                if len(self.inv) == 0:
+                    print("You currently have nothing.")
+                else:
+                    print("You have the following items:")
+                    for item in self.inv:
+                        print(item)
+                    item = input("\nWhat item would you like to use? ").capitalize()
+                    print()
+                    remove, item = use_item(self, dungeon[x][y], item, objects)
+                    if remove == True:
+                        self.inv.remove(item)
 
             # easter egg actions
             case "dance":
@@ -115,13 +134,14 @@ class Player():
             case _:
                 print("Invalid action.")
 
-    def move_action(self, dungeon):
+    def move_action(self, dungeon, direction = "none"):
         # initializing variables for ease of use, move = 4 for movement failure
         x = self.cur_pos_x
         y = self.cur_pos_y
         facing = self.direction
-        direction = input("Which direction would you like to move? ").lower()
-        print()
+        if direction == "none":
+            direction = input("Which direction would you like to move? ").lower()
+            print()
 
         # North = 0, East = 1, South = 2, West = 3
         # cardinal direction movement

@@ -246,6 +246,9 @@ def check_item(player, room, item, objects):
                 print("This once proud armor is coated in dirt and grime.")
             else:
                 print(f"You find a {player.code % 1000 // 100} engraved on the armor.")
+                if objects["Diary"].prog % 8 // 4 == 0:
+                    print("You note it down in the DIARY.")
+                    objects["Diary"].prog += 4
        
     return
 
@@ -278,7 +281,7 @@ def take_item(player, room, item, objects):
     # items that are never collectable are not checked
     match item:
         case "Chef":
-            print("While you find the chef attractive, now is not the time!")
+            check_item(player, room, item, objects)
 
         case "Knife":
             print("'If you know what's good for ya, you'll keep your hands off my knife!'")
@@ -444,6 +447,13 @@ def take_item(player, room, item, objects):
 
         case "Painting":
             print("Ever since the 'Lizard Incident', you've stayed away from paintings.")
+            if objects["Diary"].prog > 0:
+                print(f"Upon further inspection, you notice a small {player.code // 1000} in the corner.")
+                # adds digit to diary if it's not already there
+                if objects["Painting"].prog == 0:
+                    objects["Painting"].prog += 1
+                    objects["Diary"].prog += 2
+                    print("You note it down in the DIARY.")
 
         case "Metaldoor":
             if objects["Metaldoor"].prog == 0:
@@ -735,11 +745,15 @@ def use_item(player, room, item, objects):
                         "You use the soap to scrub all the dirt off of the armor.\n"
                         "You wipe the remains away with your handkerchief.\n"
                         f"Underneath you find a {player.code % 1000 // 100} engraved on the armor.\n"
-                        "You note it down in the DIARY."
-                        )
+                    )
+                    if objects["Diary"].prog == 0:
+                        print("You aren't sure what that means, but it seems important.")
+                    else:
+                        print("You note it down in the DIARY.")
+                        objects["Diary"].prog += 4
                     player.inv.remove("Handkerchief")
                     objects["Armor"].prog += 1
-                    objects["Diary"].prog += 4
+                    
                     return True, item
 
                 case _:

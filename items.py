@@ -109,7 +109,7 @@ def check_item(player, room, item, objects):
             print("A gold coin.")
 
         case "Clock":
-            print(f"The current time is {time.strftime("%H:%M:%S")}.")
+            print(f'The current time is {time.strftime("%H:%M:%S")}.')
 
         case "Chair":
             print("A comfy looking chair. There's enough room to fit one and a half people.")

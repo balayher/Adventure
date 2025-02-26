@@ -24,6 +24,8 @@ def main():
         "It seems you were unsuccessful as you are now inside a prison cell.\n"
         "How are you going to get out of this one?"
     )
+    
+    dungeon[STARTING_X_POS][STARTING_Y_POS].visited = True
 
     # gameplay loop
     while True:

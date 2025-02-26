@@ -2,6 +2,7 @@ from constants import *
 from inspect import inspect_room
 from items import check_item, take_item, use_item
 from room_desc import get_room_desc
+from viewmap import view_map
 
 class Player():
     def __init__(self, x, y, direction, inv, prog, code):
@@ -23,6 +24,7 @@ class Player():
         # move player into another room, printing the room's name and description
         x = self.cur_pos_x
         y = self.cur_pos_y
+        dungeon[x][y].visited = True
         if dungeon[x][y].name == "Exit":
             print("You have exited Evan's mansion!")
             self.prog = 77
@@ -104,6 +106,10 @@ class Player():
                     remove, item = use_item(self, dungeon[x][y], item, objects)
                     if remove == True:
                         self.inv.remove(item)
+
+            # check map for rooms you've visited
+            case "map" :
+                view_map(dungeon)
 
             # easter egg actions
             case "dance":

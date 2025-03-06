@@ -19,14 +19,17 @@ Before running this project locally, ensure you have the following installed:
 - Map: View a map of the rooms you have visited.
 - Quit (q): Prompts to exit the game. Yes (y) confirms and exits the game.
 
-When moving, you will be prompted for a direction to move in.
-North (n), East (e), South (s), or West (w) will attempt to move you in the given direction.
-Forwards (f), Backwards (b), Left (l), or Right (r) will attempt to move you in the given direction relative to your current facing (typically, this will be the direction you entered the room from).  
+Move will prompt for a direction to move in.  
+Check, Interact, and Use will prompt for an object or item.  
+Typing in a second word with your action (i.e Use Handkerchief) will skip the prompt and use the second word as your input.  
+For movement, the following directions are available:  
+- North (n), East (e), South (s), or West (w) will attempt to move you in the given direction.
+- Forwards (f), Backwards (b), Left (l), or Right (r) will attempt to move you in the given direction relative to your current facing (typically, this will be the direction you entered the room from).
+
 You may also move directly with just North (n), East (e), South (s), or West (w).  
 Interacting with an item that's already in your inventory will attempt to Use the item instead.
 Conversely, attempting to use an item that's not in your inventory but is in the current room will attempt to Interact with the item.  
 Additional actions may be hidden as well. Experiment to find out!  
-
 
 ## Credits
 

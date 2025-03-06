@@ -30,8 +30,8 @@ def main():
     # gameplay loop
     while True:
         # get action command from player (.lower() used to ignore case)
-        action = input("\nWhat would you like to do? ").lower()
-        player.check_action(dungeon, action, objects)
+        words = input("\nWhat would you like to do? ").lower()
+        player.check_action(dungeon, words, objects)
 
         # check if player exit's the mansion
         if player.prog == 77:

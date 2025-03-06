@@ -32,16 +32,24 @@ class Player():
             print(f"You have entered the {dungeon[x][y].name}.")
             get_room_desc(dungeon[x][y])
 
-    def check_action(self, dungeon, action, objects):
+    def check_action(self, dungeon, words, objects):
         #initializing variables for ease of use later
         x = self.cur_pos_x
         y = self.cur_pos_y
 
+        actions = words.split()
+        action = ""
+        if len(actions) > 0:
+            action = words[0]
+        
         # checks if the player submitted a valid action
         match action:
             # move to another room
             case "move" | "m":
-                self.move_action(dungeon)
+                direction = "none"
+                if len(actions) > 1:
+                    direction = actions[1]
+                self.move_action(dungeon, direction)
 
             case "north" | "n":
                 self.move_action(dungeon, action)
@@ -68,14 +76,20 @@ class Player():
 
             # check an item your inventory or the current room
             case "check" | "c":
-                item = input("What would you like to check? ").capitalize()
-                print()
+                if len(actions) > 1:
+                    item = actions[1].capitalize()
+                else:
+                    item = input("What would you like to check? ").capitalize()
+                    print()
                 check_item(self, dungeon[x][y], item, objects)
 
             # attempt to take an item from the current room
             case "interact" | "i" | "grab" | "g" | "take" | "t":
-                item = input("What would you like to interact with? ").capitalize()
-                print()
+                if len(actions) > 1:
+                    item = actions[1].capitalize()
+                else:
+                    item = input("What would you like to interact with? ").capitalize()
+                    print()
                 take, item = take_item(self, dungeon[x][y], item, objects)
                 if take == True:
                     self.inv.add(item)
@@ -98,11 +112,14 @@ class Player():
                 if len(self.inv) == 0:
                     print("You currently have nothing.")
                 else:
-                    print("You have the following items:")
-                    for item in self.inv:
-                        print(item)
-                    item = input("\nWhat item would you like to use? ").capitalize()
-                    print()
+                    if len(actions) > 1:
+                        item = actions[1].capitalize()
+                    else:
+                        print("You have the following items:")
+                        for item in self.inv:
+                            print(item)
+                        item = input("\nWhat item would you like to use? ").capitalize()
+                        print()
                     remove, item = use_item(self, dungeon[x][y], item, objects)
                     if remove == True:
                         self.inv.remove(item)
@@ -140,11 +157,13 @@ class Player():
             case _:
                 print("Invalid action.")
 
-    def move_action(self, dungeon, direction = "none"):
+    def move_action(self, dungeon, direction):
         # initializing variables for ease of use, move = 4 for movement failure
         x = self.cur_pos_x
         y = self.cur_pos_y
         facing = self.direction
+        direction == "none"
+
         if direction == "none":
             direction = input("Which direction would you like to move? ").lower()
             print()
